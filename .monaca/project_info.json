@@ -1,0 +1,8 @@
+{
+  "cordova_version": "12.0",
+  "framework_version": "3.5",
+  "java_version": "17",
+  "xcode_version": "15.0.1",
+  "cordova_android_platform": "13.0.0",
+  "cordova_ios_platform": "7.1.1"
+}
