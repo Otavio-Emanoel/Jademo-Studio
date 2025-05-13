@@ -8,6 +8,7 @@ body{
     font-family: 'Open Sans', sans-serif;
     background-color: #f5f5f5;
     color: #333;
+    overflow-x: hidden;
 }
 .home-container h1{
     font-family: 'Chau Philomene One', sans-serif;
@@ -70,6 +71,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-x: hidden;
 }
 .editor-container .navbar{
     width: 100%;
@@ -99,6 +101,7 @@ body{
     width: 100%;
     background-color: #444;
     text-align: center;
+    overflow-x: auto;
 }
 .effect-item{
     color: #fff;

@@ -1,27 +1,44 @@
 <!DOCTYPE HTML>
-<html lang="pt-BR">
+<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
     <script src="cordova.js"></script>
-    <script src="components/loader.js"></script>
     <link rel="stylesheet" href="components/loader.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Jademo Studio</title>
-    <script src=""></script>
+    <script src="components/loader.js"></script>
+    
+    <!-- Media Pipe -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+
+    <!-- Importar o script -->
+
+    <script src="camera.js" defer></script>
+
+
 </head>
 <body>
+
     <section class="editor-container">
-        <div class="navbar">
-            <a href="index.html" class="back-btn"><i class="fas fa-reply"></i></a>
-            <a class="download-btn"><i class="fas fa-download"></i></a>
-        </div>
-        <div class="img-container">
-            <img src="https://placehold.co/200x280" alt="Imagem editada">
-        </div>
-        <div class="effects-container">
+    <div class="navbar">
+        <a href="index.html" class="back-btn"><i class="fas fa-reply"></i></a>
+    </div>
+
+    <!-- Exibição do vídeo da câmera -->
+    <div class="camera-container">
+        <video id="video" autoplay muted playsinline></video>
+        <canvas id="output" width="640" height="480"></canvas>
+    </div>
+
+    <!-- Filtros de efeitos -->
+    <div class="effects-container">
         <div class="effect-item">
             <div class="filter-btn" data-filter="normal">
                 <img src="https://placehold.co/100x100?text=Normal" alt="Normal">
@@ -101,6 +118,7 @@
             </div>
         </div>
     </div>
-    </section>
+</section>
+
 </body>
 </html>
