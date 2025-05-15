@@ -8,11 +8,7 @@
         />
         <meta
             http-equiv="Content-Security-Policy"
-            content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'"
-        />
-        <meta
-            http-equiv="Content-Security-Policy"
-            content="default-src * data: blob: filesystem: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'"
+            content="default-src * data: blob: filesystem: mediastream: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src * data: content:;"
         />
 
         <script src="cordova.js"></script>
@@ -49,22 +45,29 @@
 
         <script src="camera.js" defer></script>
     </head>
-    <body>
-        <section class="editor-container">
+    <body style="overflow-y: hidden;">
+        <section class="editor-container" >
             <div class="navbar">
-                <a href="index.html" class="back-btn"
-                    ><i class="fas fa-reply"></i
-                ></a>
+                <a href="index.html" class="back-btn" style="margin-bottom: 5px;">
+                    <i class="fas fa-reply"></i>
+                </a>
+                <button class="openPluginCamera" style="margin-bottom: 5px;">
+                    <i class="fas fa-camera-retro"></i>
+                </button>
+                <!-- Adicionar botão de captura -->
+                <button id="capture-btn" class="download-btn">
+                    <i class="fas fa-camera"></i>
+                </button>
             </div>
 
             <!-- Exibição do vídeo da câmera -->
-            <div class="camera-container">
+            <div class="camera-container" style="margin-top: -10px;">
                 <video id="video" autoplay playsinline muted></video>
                 <canvas id="output"></canvas>
             </div>
 
             <!-- Filtros de efeitos -->
-            <div class="effects-container">
+            <div class="effects-container" style="margin-top: -10px;">
                 <div class="effect-item">
                     <div class="filter-btn" data-filter="normal">
                         <img
@@ -185,6 +188,8 @@
                     </div>
                 </div>
             </div>
+
+            <img id="dogFilter" src="./assets/dog-filter.png" style="display: none;" />
         </section>
     </body>
 </html>

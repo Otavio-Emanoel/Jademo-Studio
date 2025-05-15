@@ -3,7 +3,7 @@ const videoElement = document.getElementById('video');
 const canvasElement = document.getElementById('output');
 const canvasCtx = canvasElement.getContext('2d');
 const filterButtons = document.querySelectorAll('.filter-btn');
-const filterButtonsContainer = document.querySelector('.filter-buttons');
+const filterButtonsContainer = document.querySelector('.effects-container'); // Corrigido!
 const dogImage = document.getElementById('dogFilter');
 
 // ============= Estados da Aplicação =============
@@ -248,39 +248,7 @@ function onResults(results) {
     }
 }
 
-// ============= Controles de Rolagem =============
-function handleTouchStart(e) {
-    isDown = true;
-    startX = e.type === 'mousedown' ?
-        e.pageX - filterButtonsContainer.offsetLeft :
-        e.touches[0].pageX - filterButtonsContainer.offsetLeft;
-    scrollLeft = filterButtonsContainer.scrollLeft;
-}
-
-function handleTouchEnd() {
-    isDown = false;
-    filterButtonsContainer.classList.remove('active');
-}
-
-function handleTouchMove(e) {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.type === 'mousemove' ?
-        e.pageX - filterButtonsContainer.offsetLeft :
-        e.touches[0].pageX - filterButtonsContainer.offsetLeft;
-    const walk = (x - startX) * 2;
-    filterButtonsContainer.scrollLeft = scrollLeft - walk;
-}
-
 // ============= Event Listeners =============
-filterButtonsContainer.addEventListener('mousedown', handleTouchStart);
-filterButtonsContainer.addEventListener('mouseleave', handleTouchEnd);
-filterButtonsContainer.addEventListener('mouseup', handleTouchEnd);
-filterButtonsContainer.addEventListener('mousemove', handleTouchMove);
-
-filterButtonsContainer.addEventListener('touchstart', handleTouchStart);
-filterButtonsContainer.addEventListener('touchend', handleTouchEnd);
-filterButtonsContainer.addEventListener('touchmove', handleTouchMove);
 
 document.getElementById('capture-btn').addEventListener('click', capturePhoto);
 
