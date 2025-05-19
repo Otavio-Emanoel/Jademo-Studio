@@ -34,44 +34,49 @@ async function startCamera() {
 const captureButton = document.getElementById('capture-btn');
 
 function capturePhoto() {
-    // Cria um canvas temporário para a captura
     const tempCanvas = document.createElement('canvas');
     const tempCtx = tempCanvas.getContext('2d');
-
-    // Define o tamanho do canvas igual ao do vídeo/filtro atual
     tempCanvas.width = videoElement.clientWidth;
     tempCanvas.height = videoElement.clientHeight;
 
     if (isUsingDogFilter && canvasElement.style.display !== 'none') {
-        // Se estiver usando o filtro de cachorro, captura do canvas
         tempCtx.drawImage(canvasElement, 0, 0, tempCanvas.width, tempCanvas.height);
     } else {
-        // Para outros filtros, captura do vídeo com os filtros CSS aplicados
         tempCtx.filter = getComputedStyle(videoElement).filter;
-        tempCtx.scale(-1, 1); // Espelha a imagem
+        tempCtx.scale(-1, 1);
         tempCtx.translate(-tempCanvas.width, 0);
         tempCtx.drawImage(videoElement, 0, 0, tempCanvas.width, tempCanvas.height);
-        tempCtx.setTransform(1, 0, 0, 1, 0, 0); // Reset transformação
+        tempCtx.setTransform(1, 0, 0, 1, 0, 0);
     }
 
-    // Converte o canvas para blob
-    tempCanvas.toBlob((blob) => {
-        // Cria um nome de arquivo com data/hora
-        const fileName = `foto_${new Date().toISOString().replace(/[:.]/g, '-')}.png`;
+    tempCanvas.toBlob(function(blob) {
+        // Salvar usando Cordova File Plugin
+        // Para Android, use externalDataDirectory; para iOS, use dataDirectory
+        const dir = (window.cordova.platformId === 'android')
+            ? cordova.file.externalDataDirectory
+            : cordova.file.dataDirectory;
 
-        // Cria um link para download
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = fileName;
-
-        // Adiciona uma animação de flash
-        createFlashEffect();
-
-        // Faz o download
-        link.click();
-
-        // Limpa a URL do objeto
-        URL.revokeObjectURL(link.href);
+        window.resolveLocalFileSystemURL(dir, function(dirEntry) {
+            const fileName = `foto_${new Date().toISOString().replace(/[:.]/g, '-')}.png`;
+            dirEntry.getFile(fileName, { create: true, exclusive: false }, function(fileEntry) {
+                fileEntry.createWriter(function(fileWriter) {
+                    fileWriter.onwriteend = function() {
+                        createFlashEffect();
+                        alert('Foto salva em: ' + fileEntry.nativeURL);
+                    };
+                    fileWriter.onerror = function(e) {
+                        alert('Erro ao salvar foto: ' + e.toString());
+                    };
+                    fileWriter.write(blob);
+                }, function(err) {
+                    alert('Erro ao criar writer: ' + err.toString());
+                });
+            }, function(err) {
+                alert('Erro ao criar arquivo: ' + err.toString());
+            });
+        }, function(err) {
+            alert('Erro ao acessar diretório: ' + err.toString());
+        });
     }, 'image/png');
 }
 
@@ -172,7 +177,13 @@ async function initFaceMesh() {
 
         faceMesh.onResults(onResults);
 
-        const camera = new Camera(videoElement, {
+        // Verifica se Camera está disponível
+        if (typeof window.Camera !== "function") {
+            alert("Erro: Biblioteca MediaPipe Camera não carregada corretamente.");
+            return;
+        }
+
+        const mediaPipeCamera = new window.Camera(videoElement, {
             onFrame: async () => {
                 if (isUsingDogFilter) {
                     await faceMesh.send({ image: videoElement });
@@ -182,7 +193,7 @@ async function initFaceMesh() {
             height: 720
         });
 
-        await camera.start();
+        await mediaPipeCamera.start();
     }
 
     // Garante que o vídeo e o canvas estejam configurados corretamente
@@ -257,6 +268,11 @@ filterButtons.forEach(button => {
         const filterName = button.getAttribute('data-filter');
         applyFilter(filterName);
     });
+});
+
+document.getElementById('capture-btn').addEventListener('click', function(event) {
+    event.preventDefault();
+    capturePhoto();
 });
 
 // ============= Inicialização =============
