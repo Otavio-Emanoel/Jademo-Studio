@@ -9,7 +9,8 @@
         "monaca-plugin-monaca-core": "3.3.1",
         "cordova-plugin-camera": "7.0.0",
         "cordova-plugin-file": "8.0.1",
-        "cordova-plugin-splashscreen": "6.0.2"
+        "cordova-plugin-splashscreen": "6.0.2",
+        "cordova-plugin-dialogs": "2.0.2"
     },
     "scripts": {
         "monaca:preview": "npm run dev",
@@ -20,7 +21,8 @@
             "monaca-plugin-monaca-core": {},
             "cordova-plugin-camera": {},
             "cordova-plugin-file": {},
-            "cordova-plugin-splashscreen": {}
+            "cordova-plugin-splashscreen": {},
+            "cordova-plugin-dialogs": {}
         }
     },
     "devDependencies": {

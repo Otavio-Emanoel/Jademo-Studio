@@ -3,7 +3,7 @@ const videoElement = document.getElementById('video');
 const canvasElement = document.getElementById('output');
 const canvasCtx = canvasElement.getContext('2d');
 const filterButtons = document.querySelectorAll('.filter-btn');
-const filterButtonsContainer = document.querySelector('.effects-container'); // Corrigido!
+const filterButtonsContainer = document.querySelector('.effects-container');
 const dogImage = document.getElementById('dogFilter');
 
 // ============= Estados da Aplicação =============
@@ -31,8 +31,6 @@ async function startCamera() {
 }
 
 // ============= Captura de Fotos =============
-const captureButton = document.getElementById('capture-btn');
-
 function capturePhoto() {
     const tempCanvas = document.createElement('canvas');
     const tempCtx = tempCanvas.getContext('2d');
@@ -49,33 +47,71 @@ function capturePhoto() {
         tempCtx.setTransform(1, 0, 0, 1, 0, 0);
     }
 
-    tempCanvas.toBlob(function(blob) {
-        // Salvar usando Cordova File Plugin
-        // Para Android, use externalDataDirectory; para iOS, use dataDirectory
-        const dir = (window.cordova.platformId === 'android')
-            ? cordova.file.externalDataDirectory
-            : cordova.file.dataDirectory;
+    tempCanvas.toBlob(function (blob) {
+        // Salvar na pasta pública de imagens para aparecer na galeria
+        let dir;
+        if (window.cordova.platformId === 'android') {
+            dir = cordova.file.externalRootDirectory + 'Pictures/';
+        } else {
+            dir = cordova.file.dataDirectory;
+        }
 
-        window.resolveLocalFileSystemURL(dir, function(dirEntry) {
+        window.resolveLocalFileSystemURL(dir, function (dirEntry) {
             const fileName = `foto_${new Date().toISOString().replace(/[:.]/g, '-')}.png`;
-            dirEntry.getFile(fileName, { create: true, exclusive: false }, function(fileEntry) {
-                fileEntry.createWriter(function(fileWriter) {
-                    fileWriter.onwriteend = function() {
+            dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) {
+                fileEntry.createWriter(function (fileWriter) {
+                    fileWriter.onwriteend = function () {
                         createFlashEffect();
-                        alert('Foto salva em: ' + fileEntry.nativeURL);
+                        navigator.notification.alert(
+                            'Foto salva em: ' + fileEntry.nativeURL,
+                            null,
+                            'Sucesso',
+                            'OK'
+                        );
+                        // Remova ou comente este bloco:
+                        // if (window.cordova.platformId === 'android') {
+                        //     cordova.plugins.fileOpener2.open(
+                        //         fileEntry.nativeURL,
+                        //         'image/png',
+                        //         {
+                        //             error: function () { },
+                        //             success: function () { }
+                        //         }
+                        //     );
+                        // }
                     };
-                    fileWriter.onerror = function(e) {
-                        alert('Erro ao salvar foto: ' + e.toString());
+                    fileWriter.onerror = function (e) {
+                        navigator.notification.alert(
+                            'Erro ao salvar foto: ' + e.toString(),
+                            null,
+                            'Erro',
+                            'OK'
+                        );
                     };
                     fileWriter.write(blob);
-                }, function(err) {
-                    alert('Erro ao criar writer: ' + err.toString());
+                }, function (err) {
+                    navigator.notification.alert(
+                        'Erro ao criar writer: ' + err.toString(),
+                        null,
+                        'Erro',
+                        'OK'
+                    );
                 });
-            }, function(err) {
-                alert('Erro ao criar arquivo: ' + err.toString());
+            }, function (err) {
+                navigator.notification.alert(
+                    'Erro ao criar arquivo: ' + err.toString(),
+                    null,
+                    'Erro',
+                    'OK'
+                );
             });
-        }, function(err) {
-            alert('Erro ao acessar diretório: ' + err.toString());
+        }, function (err) {
+            navigator.notification.alert(
+                'Erro ao acessar diretório: ' + err.toString(),
+                null,
+                'Erro',
+                'OK'
+            );
         });
     }, 'image/png');
 }
@@ -150,6 +186,8 @@ function applyFilter(filterName) {
         if (filterName !== 'normal') {
             videoElement.classList.add(`filter-${filterName}`);
         }
+        // Se não estiver usando dog, garanta que a câmera está ativa
+        startCamera();
     }
 
     // Ativa o botão selecionado
@@ -179,7 +217,12 @@ async function initFaceMesh() {
 
         // Verifica se Camera está disponível
         if (typeof window.Camera !== "function") {
-            alert("Erro: Biblioteca MediaPipe Camera não carregada corretamente.");
+            navigator.notification.alert(
+                "Erro: Biblioteca MediaPipe Camera não carregada corretamente.",
+                null,
+                "Erro",
+                "OK"
+            );
             return;
         }
 
@@ -226,7 +269,7 @@ function onResults(results) {
 
             const eyeDistance = Math.sqrt(
                 Math.pow(rightEye.x - leftEye.x, 2) +
-                Math.pow(rightEye.y - rightEye.y, 2)
+                Math.pow(rightEye.y - leftEye.y, 2)
             );
 
             // Ajuste o tamanho do filtro
@@ -261,8 +304,13 @@ function onResults(results) {
 
 // ============= Event Listeners =============
 
-document.getElementById('capture-btn').addEventListener('click', capturePhoto);
+// Botão de captura
+document.getElementById('capture-btn').addEventListener('click', function (event) {
+    event.preventDefault();
+    capturePhoto();
+});
 
+// Botões de filtro
 filterButtons.forEach(button => {
     button.addEventListener('click', () => {
         const filterName = button.getAttribute('data-filter');
@@ -270,10 +318,9 @@ filterButtons.forEach(button => {
     });
 });
 
-document.getElementById('capture-btn').addEventListener('click', function(event) {
-    event.preventDefault();
-    capturePhoto();
-});
-
 // ============= Inicialização =============
-startCamera();
+applyFilter('normal');
+
+if (!isUsingDogFilter) {
+    startCamera();
+}
