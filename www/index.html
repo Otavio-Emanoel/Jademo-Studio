@@ -1,29 +1,38 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
-    <script src="cordova.js"></script>
-    <script src="components/loader.js"></script>
-    <link rel="stylesheet" href="components/loader.css">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Jademo Studio</title>
-    <script src=""></script>
-</head>
-<body>
-    <section class="home-container">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        />
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'"
+        />
+        <script src="cordova.js"></script>
+        <script src="components/loader.js"></script>
+        <link rel="stylesheet" href="components/loader.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <title>Jademo Studio</title>
+        <script src=""></script>
+    </head>
 
-        <h1>Jademo Studio</h1>
-        <div class="buttons-container">
-            <a href="camera.html" class="camera-button">
-                CÂMERA
-            </a>
-            <a href="editor.html" class="editor-button">
-                EDITAR
-            </a>
-        </div>
-    </section>
-    
-</body>
+    <body>
+        <section class="home-container">
+            <h1 id="open-easterEgg">Jademo Studio</h1>
+            <div class="buttons-container">
+                <a href="camera.html" class="camera-button"> CÂMERA </a>
+                <a href="editor.html" class="editor-button"> EDITAR </a>
+            </div>
+        </section>
+        <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        document.querySelector('.home-container').classList.add('visible');
+                    });
+                    document.getElementById('open-easterEgg').addEventListener('click', function () {
+                window.location.href = 'pato.html';
+            });
+        </script>
+    </body>
 </html>

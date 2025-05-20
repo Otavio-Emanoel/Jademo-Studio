@@ -22,89 +22,59 @@
             <button id="download-btn" class="download-btn"><i class="fas fa-download"></i></button>
         </div>
         <div class="img-container">
-            <img class="img-file" src="https://img.freepik.com/vetores-gratis/ilustracao-do-gesto-de-mao-de-tela-de-toque_53876-5607.jpg?semt=ais_hybrid&w=740" alt="Imagem editada">
+            <canvas id="edit-canvas"></canvas>
         </div>
-        <div class="effects-container">
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="normal">
-                    <img src="https://placehold.co/100x100?text=Normal" alt="Normal">
-                    <p>Normal</p>
-                </div>
-            </div>
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="grayscale">
-                    <img src="https://placehold.co/100x100?text=P%26B" alt="P&B">
-                    <p>P&B</p>
-                </div>
-            </div>
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="sepia">
-                    <img src="https://placehold.co/100x100?text=Sépia" alt="Sépia">
-                    <p>Sépia</p>
-                </div>
-            </div>
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="saturate">
-                    <img src="https://placehold.co/100x100?text=Saturado" alt="Saturado">
-                    <p>Saturado</p>
-                </div>
-            </div>
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="contrast">
-                    <img src="https://placehold.co/100x100?text=Contraste" alt="Contraste">
-                    <p>Contraste</p>
-                </div>
-            </div>
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="blur">
-                    <img src="https://placehold.co/100x100?text=Desfoque" alt="Desfoque">
-                    <p>Desfoque</p>
-                </div>
-            </div>
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="vintage">
-                    <img src="https://placehold.co/100x100?text=Vintage" alt="Vintage">
-                    <p>Vintage</p>
-                </div>
-            </div>
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="dramatic">
-                    <img src="https://placehold.co/100x100?text=Dramatic" alt="Dramatic">
-                    <p>Dramatic</p>
-                </div>
-            </div>
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="aesthetic">
-                    <img src="https://placehold.co/100x100?text=Aesthetic" alt="Aesthetic">
-                    <p>Aesthetic</p>
-                </div>
-            </div>
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="cinema">
-                    <img src="https://placehold.co/100x100?text=Cinema" alt="Cinema">
-                    <p>Cinema</p>
-                </div>
-            </div>
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="retro">
-                    <img src="https://placehold.co/100x100?text=Retro" alt="Retro">
-                    <p>Retro</p>
-                </div>
-            </div>
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="dark">
-                    <img src="https://placehold.co/100x100?text=Dark" alt="Dark">
-                    <p>Dark</p>
-                </div>
-            </div>
-            <div class="effect-item">
-                <div class="filter-btn" data-filter="dog">
-                    <img src="./assets/dog-filter.png" alt="Cachorrinho" width="100" height="100">
-                    <p>Dog</p>
-                </div>
-            </div>
+        <div class="tools-container">
+            <button id="brush-btn" title="Pincel"><i class="fas fa-paint-brush"></i></button>
+            <button id="eraser-btn" title="Borracha"><i class="fas fa-eraser"></i></button>
+            <label>
+                Cor:
+                <input type="color" id="brush-color" value="#000000">
+            </label>
+            <label>
+                Tamanho:
+                <input type="range" id="brush-size" min="1" max="40" value="5">
+                <span id="brush-size-value">5</span>
+            </label>
+            <label>
+                Brilho:
+                <input type="range" id="brightness-range" min="0" max="2" step="0.01" value="1">
+                <span id="brightness-value">1</span>
+            </label>
+            <label>
+                Escuro:
+                <input type="range" id="darkness-range" min="0" max="1" step="0.01" value="0">
+                <span id="darkness-value">0</span>
+            </label>u
+            <label>
+                Contraste:
+                <input type="range" id="contrast-range" min="0" max="3" step="0.01" value="1">
+                <span id="contrast-value">1</span>
+            </label>
+            <label>
+                Saturação:
+                <input type="range" id="saturate-range" min="0" max="3" step="0.01" value="1">
+                <span id="saturate-value">1</span>
+            </label>
         </div>
     </section>
+
+    <div id="exit-modal"
+        style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100vw; height:100vh; background:#000a; align-items:center; justify-content:center;">
+        <div
+            style="background:#fff; color:#222; border-radius:16px; padding:32px 24px; max-width:90vw; text-align:center; box-shadow:0 4px 32px #0004;">
+            <h3 style="margin-bottom:16px;">Deseja sair da edição?</h3>
+            <p style="margin-bottom:24px;">Você perderá as alterações se não salvar.</p>
+            <button id="modal-save-btn"
+                style="margin:0 8px 0 0; padding:8px 18px; border-radius:8px; border:none; background:#004aad; color:#fff;">Salvar</button>
+            <button id="modal-exit-btn"
+                style="margin:0 8px 0 0; padding:8px 18px; border-radius:8px; border:none; background:#bbb; color:#222;">Sair
+                sem salvar</button>
+            <button id="modal-cancel-btn"
+                style="padding:8px 18px; border-radius:8px; border:none; background:#eee; color:#222;">Cancelar</button>
+        </div>
+    </div>
+
     <script src="editor.js"></script>
 </body>
 

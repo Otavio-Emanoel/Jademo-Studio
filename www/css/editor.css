@@ -1,0 +1,89 @@
+.tools-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background: #222;
+    padding: 15px 20px;
+    color: #fff;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 2px 8px #0002;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+.tools-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.tools-container button {
+    background: #004aad;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 6px #0003;
+}
+.tools-container button.active,
+.tools-container button:focus {
+    background: #00bfff;
+    transform: scale(1.1);
+    outline: none;
+}
+.tools-container button:hover {
+    background: #0070c0;
+}
+.tools-container label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #333;
+    border-radius: 12px;
+    padding: 6px 12px;
+    font-size: 15px;
+}
+.tools-container input[type="range"] {
+    width: 100px;
+    accent-color: #004aad;
+}
+.tools-container span {
+    min-width: 32px;
+    text-align: right;
+    font-family: monospace;
+    font-size: 14px;
+    color: #fff;
+}
+
+.img-container canvas {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+.img-container canvas.visible {
+    opacity: 1;
+}
+
+#exit-modal {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    display: flex !important;
+}
+#exit-modal.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+#exit-modal > div {
+    transform: scale(0.95);
+    transition: transform 0.3s;
+}
+#exit-modal.show > div {
+    transform: scale(1);
+}
