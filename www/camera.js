@@ -62,23 +62,20 @@ function capturePhoto() {
                 fileEntry.createWriter(function (fileWriter) {
                     fileWriter.onwriteend = function () {
                         createFlashEffect();
-                        navigator.notification.alert(
-                            'Foto salva em: ' + fileEntry.nativeURL,
-                            null,
-                            'Sucesso',
-                            'OK'
-                        );
-                        // Remova ou comente este bloco:
-                        // if (window.cordova.platformId === 'android') {
-                        //     cordova.plugins.fileOpener2.open(
-                        //         fileEntry.nativeURL,
-                        //         'image/png',
-                        //         {
-                        //             error: function () { },
-                        //             success: function () { }
-                        //         }
-                        //     );
-                        // }
+                        if (window.plugins && window.plugins.toast) {
+                            window.plugins.toast.showWithOptions({
+                                message: "Foto salva na galeria!",
+                                duration: "short",
+                                position: "bottom"
+                            });
+                        } else {
+                            navigator.notification.alert(
+                                'Foto salva em: ' + fileEntry.nativeURL,
+                                null,
+                                'Sucesso',
+                                'OK'
+                            );
+                        }
                     };
                     fileWriter.onerror = function (e) {
                         navigator.notification.alert(

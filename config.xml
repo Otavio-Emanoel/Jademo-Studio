@@ -84,13 +84,13 @@
   <platform name="android">
     <icon src="/res/android/icon/ldpi.png" density="ldpi"/>
     <icon src="/res/android/icon/mdpi.png" density="mdpi"/>
-    <icon src="/res/android/icon/hdpi.png" density="hdpi"/>
     <icon src="/res/android/icon/xhdpi.png" density="xhdpi"/>
     <icon src="/res/android/icon/xxhdpi.png" density="xxhdpi"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <icon src="/res/android/icon/hdpi.png" density="hdpi"/>
     <icon src="/res/android/icon/xxxhdpi.png" density="xxxhdpi"/>
-    <preference name="AndroidWindowSplashScreenBackground" value="#ffffff"/>
+    <preference name="AndroidWindowSplashScreenBackground" value="#004AAD"/>
     <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/android/screen/window_splashscreen_icon.png"/>
-    <uses-permission android:name="android.permission.CAMERA" />
   </platform>
   <platform name="electron">
     <icon src="/res/electron/icon/icon_electron_512.png" width="512" height="512"/>
@@ -106,6 +106,6 @@
   <preference name="monaca:AndroidIsPackageNameSeparate" value="true"/>
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="Orientation" value="default"/>
-  <preference name="SplashScreenDelay" value="1000"/>
+  <preference name="SplashScreenDelay" value="2000"/>
   <preference name="Fullscreen" value="false"/>
 </widget>
