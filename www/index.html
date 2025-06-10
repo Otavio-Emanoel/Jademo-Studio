@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
     <head>
         <meta charset="utf-8" />
@@ -16,6 +16,9 @@
         <link rel="stylesheet" href="css/style.css" />
         <title>Jademo Studio</title>
         <script src=""></script>
+        <style>
+            
+        </style>
     </head>
 
     <body>
@@ -27,12 +30,34 @@
             </div>
         </section>
         <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        document.querySelector('.home-container').classList.add('visible');
-                    });
-                    document.getElementById('open-easterEgg').addEventListener('click', function () {
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelector('.home-container').classList.add('visible');
+            });
+            document.getElementById('open-easterEgg').addEventListener('click', function () {
                 window.location.href = 'pato.html';
             });
+
+
+             // Landbot
+
+            window.addEventListener('mouseover', initLandbot, { once: true });
+            window.addEventListener('touchstart', initLandbot, { once: true });
+            var myLandbot;
+            function initLandbot() {
+              if (!myLandbot) {
+                var s = document.createElement('script');
+                s.type = "module"
+                s.async = true;
+                s.addEventListener('load', function() {
+                  myLandbot = new Landbot.Popup({
+                    configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-2975655-B4E52FE3EHSSEYF6/index.json',
+                  });
+                });
+                s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
+                var x = document.getElementsByTagName('script')[0];
+                x.parentNode.insertBefore(s, x);
+              }
+            }
         </script>
     </body>
 </html>
